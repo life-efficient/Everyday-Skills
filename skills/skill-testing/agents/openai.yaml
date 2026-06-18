@@ -1,0 +1,4 @@
+interface:
+  display_name: "Skill Testing"
+  short_description: "Test Codex skills for drift and quality"
+  default_prompt: "Use $skill-testing to validate this skill before shipping it."

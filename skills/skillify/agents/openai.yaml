@@ -1,0 +1,4 @@
+interface:
+  display_name: "Skillify"
+  short_description: "Create rigorous reusable Codex skills"
+  default_prompt: "Use $skillify to turn this workflow into a tested reusable skill."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Skillpack Check"
+  short_description: "Check a skills repo before release"
+  default_prompt: "Use $skillpack-check to audit this skills repo before publishing."

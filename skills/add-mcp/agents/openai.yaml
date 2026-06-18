@@ -1,0 +1,5 @@
+interface:
+  display_name: "Add MCP"
+  short_description: "Connect hosted MCP servers to Codex"
+  default_prompt: "Use $add-mcp to add this hosted MCP server to Codex and verify it works."
+
