@@ -16,16 +16,19 @@ single product or knowledge base.
 
 ## Install locally
 
-Symlink the skills you want into the active skills directory:
+Symlink the skills you want into the active skills directory. Agent-facing
+install steps are also available in `INSTALL_FOR_AGENTS.md`.
 
 ```bash
 repo_root="$(pwd)"
-mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
-ln -sfn "$repo_root/skills/add-mcp" "${CODEX_HOME:-$HOME/.codex}/skills/add-mcp"
-ln -sfn "$repo_root/skills/skillify" "${CODEX_HOME:-$HOME/.codex}/skills/skillify"
-ln -sfn "$repo_root/skills/skill-testing" "${CODEX_HOME:-$HOME/.codex}/skills/skill-testing"
-ln -sfn "$repo_root/skills/skillpack-check" "${CODEX_HOME:-$HOME/.codex}/skills/skillpack-check"
-ln -sfn "$repo_root/skills/todo-refresh" "${CODEX_HOME:-$HOME/.codex}/skills/todo-refresh"
+skills_dir="${CODEX_HOME:-$HOME/.codex}/skills"
+
+mkdir -p "$skills_dir"
+ln -sfn "$repo_root/skills/add-mcp" "$skills_dir/add-mcp"
+ln -sfn "$repo_root/skills/skillify" "$skills_dir/skillify"
+ln -sfn "$repo_root/skills/skill-testing" "$skills_dir/skill-testing"
+ln -sfn "$repo_root/skills/skillpack-check" "$skills_dir/skillpack-check"
+ln -sfn "$repo_root/skills/todo-refresh" "$skills_dir/todo-refresh"
 ```
 
 ## Check before shipping
