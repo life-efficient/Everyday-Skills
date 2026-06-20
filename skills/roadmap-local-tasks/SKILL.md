@@ -1,13 +1,14 @@
 ---
 name: roadmap-local-tasks
-description: Gather roadmap thoughts for existing local projects under ~/projects and turn them into next-step options or task direction. Use when the user wants to think through what to do next across local projects, focus on a certain project, exclude certain projects, compare project priorities, or collect planning input before updating TODO.md files.
+description: Gather roadmap thoughts for existing local projects under ~/projects and turn them into TODO.md-ready next tasks. Use when the user wants to think through what to do next across local projects, focus on a certain project, exclude certain projects, compare project priorities, or populate project TODO.md files from planning input.
 ---
 
 # Roadmap Local Tasks
 
 Guide a short planning conversation for local projects. The goal is to surface
-the user's priorities and convert them into clear next-step candidates, not to
-audit implementation state or rewrite task files by default.
+the user's priorities and convert them into clear `TODO.md` entries or
+TODO-ready task candidates. This skill plans and records next work; it does not
+implement the work unless the user explicitly asks for implementation.
 
 ## Contract
 
@@ -18,8 +19,9 @@ Successful completion means:
 
 - the target scope is explicit: one project, several projects, all projects, or all except named exclusions
 - the user has answered focused questions about goals, constraints, and near-term outcomes
-- the response turns their answers into practical next-step options
-- no `TODO.md` files are edited unless the user explicitly asks to record or apply the plan
+- the response turns their answers into practical TODO-ready next-step options
+- if the user gives enough direction to act, the relevant root `TODO.md` files are updated in the existing style
+- no product/code implementation is performed unless the user explicitly asks for implementation
 
 ## Workflow
 
@@ -39,13 +41,14 @@ Successful completion means:
    - For multiple projects, ask for ranking criteria before proposing a plan.
 4. Convert answers into next-step options.
    - Summarize the user's direction in one short paragraph.
-   - Propose 3-7 candidate next steps, each tied to a project and a visible outcome.
+   - Propose 3-7 candidate TODO entries, each tied to a project and a visible outcome.
    - Mark items as `now`, `next`, or `later` when prioritization is clear.
    - Call out any unresolved decision that would change the plan.
-5. Write tasks only on explicit request.
-   - If the user asks to add tasks, update the relevant root `TODO.md` files in the existing style.
+5. Populate `TODO.md` once direction is clear.
+   - Treat roadmap decisions, priorities, and "that would be good" confirmations as permission to update the relevant root `TODO.md` files.
    - Preserve existing headings and do not remove tasks; use `refresh-local-tasks` for pruning stale items.
    - If repo evidence is needed to draft concrete TODOs, use `plan-next-todos` rather than inventing implementation tasks from conversation alone.
+   - Stop after updating TODOs and reporting the changed files unless the user explicitly asks to implement code.
 
 ## Question Patterns
 
@@ -72,7 +75,8 @@ When several projects are in play, ask:
 
 - Do not assume "all projects" when the user has not specified scope; ask for focus or exclusions.
 - Do not turn a roadmap conversation into a code audit unless the user asks for evidence-backed TODOs.
-- Do not edit task files during the questioning phase.
+- Do not edit task files during the questioning phase, but do update them once the user has provided enough priority direction.
+- Do not implement roadmap items from this skill alone. Populate `TODO.md`; implementation belongs to a separate explicit request.
 - Do not ask for every possible detail at once; keep questions short enough to answer in chat.
 - Do not invent deadlines, stakeholders, or priorities that the user has not provided.
 
@@ -82,8 +86,9 @@ For the first response, prefer questions over a plan when scope or intent is
 unclear. Once the user answers, report:
 
 - `Direction`: one concise summary of the chosen focus
-- `Next steps`: 3-7 practical options with project names
+- `TODO updates`: changed `TODO.md` files and items added, when enough direction was provided
+- `Next steps`: 3-7 TODO-ready options with project names, when more confirmation is still needed before editing
 - `Open decisions`: only the decisions still blocking a sharper roadmap
 
-If files are updated later, report the changed files, items added, checks run,
-and commit hash when committed.
+When files are updated, report the changed files, items added, checks run, and
+commit hash when committed.

@@ -1,4 +1,4 @@
 interface:
   display_name: "Roadmap Local Tasks"
-  short_description: "Ask planning questions for local project next steps."
-  default_prompt: "Use $roadmap-local-tasks to ask focused questions about which local project to prioritize and what next steps to plan."
+  short_description: "Turn local project planning into TODO.md tasks."
+  default_prompt: "Use $roadmap-local-tasks to ask focused planning questions for local projects, then update the relevant TODO.md files with the chosen next tasks."
