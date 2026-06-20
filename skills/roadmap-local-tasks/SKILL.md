@@ -5,10 +5,11 @@ description: Gather roadmap thoughts for existing local projects under ~/project
 
 # Roadmap Local Tasks
 
-Guide a short planning conversation for local projects. The goal is to surface
-the user's priorities and convert them into clear `TODO.md` entries or
-TODO-ready task candidates. This skill plans and records next work; it does not
-implement the work unless the user explicitly asks for implementation.
+Guide a short planning conversation for local projects. The goal is to identify
+active threads in a project, suggest useful extensions and adjacent work, and
+convert the user's priorities into clear `TODO.md` entries or TODO-ready task
+candidates. This skill plans and records next work; it does not implement the
+work unless the user explicitly asks for implementation.
 
 ## Contract
 
@@ -18,7 +19,8 @@ roadmap next steps for projects that live under `~/projects`.
 Successful completion means:
 
 - the target scope is explicit: one project, several projects, all projects, or all except named exclusions
-- the user has answered focused questions about goals, constraints, and near-term outcomes
+- the response reflects the project's visible work threads and plausible next extensions
+- the user has answered any focused questions needed to choose among threads
 - the response turns their answers into practical TODO-ready next-step options
 - if the user gives enough direction to act, the relevant root `TODO.md` files are updated in the existing style
 - no product/code implementation is performed unless the user explicitly asks for implementation
@@ -34,17 +36,23 @@ Successful completion means:
    - For scoped projects, read root planning files when present: `TODO.md`, `README.md`, `ROADMAP.md`, `CHANGELOG.md`, and `docs/` indexes.
    - Use current repo state only to frame better questions. Do not perform a full task refresh unless the user asks for it.
    - If the user wants a pure brainstorm, skip repo inspection and ask from their stated goals.
-3. Ask concise roadmap questions.
-   - Ask 3-6 questions at a time, grouped by purpose.
-   - Include scope controls when missing: focus project, excluded projects, and time horizon.
-   - Prefer questions that produce actionable choices: outcome, user/customer, deadline, risk, blocked decision, and first visible win.
-   - For multiple projects, ask for ranking criteria before proposing a plan.
-4. Convert answers into next-step options.
+3. Map threads before asking broad questions.
+   - Identify 3-6 active or implied work threads from planning files, recent context, and the user's prompt.
+   - For each thread, name the current direction and suggest 1-3 concrete extensions.
+   - Add a short "other suggestions" section for adjacent opportunities that are not already implied by the visible threads.
+   - Treat time horizon as priority ordering, not as a required planning question. Use `now`, `next`, and `later` when priority is clear.
+4. Ask only targeted roadmap questions.
+   - Ask questions only when they would change the task list or file placement.
+   - Prefer concrete choice questions about which thread to advance first, which audience or business outcome matters most, what must be kept separate, or which risk blocks execution.
+   - Do not ask broad prompts such as "what would make the next work session successful" unless the user explicitly asks for reflective planning.
+   - Do not ask "what should not be touched" by default; rely on the user to state exclusions, and ask only if file ownership or safety boundaries are ambiguous.
+   - For multiple projects, ask for priority criteria only after naming the visible threads and suggested extensions.
+5. Convert answers into next-step options.
    - Summarize the user's direction in one short paragraph.
    - Propose 3-7 candidate TODO entries, each tied to a project and a visible outcome.
    - Mark items as `now`, `next`, or `later` when prioritization is clear.
    - Call out any unresolved decision that would change the plan.
-5. Populate `TODO.md` once direction is clear.
+6. Populate `TODO.md` once direction is clear.
    - Treat roadmap decisions, priorities, and "that would be good" confirmations as permission to update the relevant root `TODO.md` files.
    - Preserve existing headings and do not remove tasks; use `refresh-local-tasks` for pruning stale items.
    - If repo evidence is needed to draft concrete TODOs, use `plan-next-todos` rather than inventing implementation tasks from conversation alone.
@@ -56,14 +64,12 @@ When scope is missing, ask:
 
 - Which project should we focus on first, or should we look across all projects?
 - Are there any projects to exclude from this planning pass?
-- What time horizon should this roadmap cover: today, this week, this month, or a longer push?
 
 When one project is selected, ask:
 
-- What outcome would make the next work session feel successful?
-- Who is the next user, stakeholder, or buyer this project should serve?
-- What is the biggest blocker or uncertainty right now?
-- What should not be touched in this pass?
+- I see these active threads: `<thread list>`. Which one should be treated as `now`?
+- Which audience or business outcome should drive this roadmap: `<specific options from context>`?
+- Which boundary matters most here, such as repo placement, data privacy, production safety, or gated versus public content?
 
 When several projects are in play, ask:
 
@@ -71,21 +77,38 @@ When several projects are in play, ask:
 - Which project has the most urgent external commitment?
 - Which project should intentionally receive less attention for now?
 
+## Suggestion Patterns
+
+When a project has enough visible context, lead with suggestions before
+questions:
+
+- `Active threads`: name the threads already present in the repo, TODOs, docs,
+  recent work, or user prompt.
+- `Extensions`: for each thread, suggest practical next work that follows from
+  the thread.
+- `Other suggestions`: add adjacent options the user may not have named but
+  that fit the project's direction.
+- `Decisions needed`: list only decisions that block choosing or placing TODO
+  entries.
+
 ## Guardrails
 
 - Do not assume "all projects" when the user has not specified scope; ask for focus or exclusions.
 - Do not turn a roadmap conversation into a code audit unless the user asks for evidence-backed TODOs.
 - Do not edit task files during the questioning phase, but do update them once the user has provided enough priority direction.
 - Do not implement roadmap items from this skill alone. Populate `TODO.md`; implementation belongs to a separate explicit request.
+- Do not ask for generic planning detail when concrete project threads are already visible.
 - Do not ask for every possible detail at once; keep questions short enough to answer in chat.
 - Do not invent deadlines, stakeholders, or priorities that the user has not provided.
 
 ## Output
 
-For the first response, prefer questions over a plan when scope or intent is
-unclear. Once the user answers, report:
+For the first response, prefer a thread map plus targeted questions when the
+project scope is known. Prefer questions first only when scope is missing. Once
+the user answers, report:
 
 - `Direction`: one concise summary of the chosen focus
+- `Active threads`: visible threads and suggested extensions, when useful
 - `TODO updates`: changed `TODO.md` files and items added, when enough direction was provided
 - `Next steps`: 3-7 TODO-ready options with project names, when more confirmation is still needed before editing
 - `Open decisions`: only the decisions still blocking a sharper roadmap
