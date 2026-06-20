@@ -11,6 +11,8 @@ single product or knowledge base.
 - `skill-testing`: Validate one skill for structure, anti-patterns, metadata
   drift, and realistic task behavior.
 - `skillpack-check`: Audit a repo of skills before release.
+- `todo-refresh`: Check project task lists against the current repo, remove
+  completed or stale items, and rewrite vague tasks into specific remaining work.
 
 ## Install locally
 
@@ -23,6 +25,7 @@ ln -sfn "$repo_root/skills/add-mcp" "${CODEX_HOME:-$HOME/.codex}/skills/add-mcp"
 ln -sfn "$repo_root/skills/skillify" "${CODEX_HOME:-$HOME/.codex}/skills/skillify"
 ln -sfn "$repo_root/skills/skill-testing" "${CODEX_HOME:-$HOME/.codex}/skills/skill-testing"
 ln -sfn "$repo_root/skills/skillpack-check" "${CODEX_HOME:-$HOME/.codex}/skills/skillpack-check"
+ln -sfn "$repo_root/skills/todo-refresh" "${CODEX_HOME:-$HOME/.codex}/skills/todo-refresh"
 ```
 
 ## Check before shipping
@@ -31,4 +34,3 @@ ln -sfn "$repo_root/skills/skillpack-check" "${CODEX_HOME:-$HOME/.codex}/skills/
 python3 tests/check_skillpack.py
 python3 -m unittest discover -s skills/add-mcp/tests
 ```
-

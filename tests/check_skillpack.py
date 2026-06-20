@@ -48,9 +48,9 @@ def main() -> int:
 
         if not name:
             failures.append(f"{skill_dir.name}: missing name")
-        if not description or "TODO" in description:
+        if not description or re.search(r"\bTODO(?:\s*:|\s+placeholder|\s+here)\b", description, re.IGNORECASE):
             failures.append(f"{skill_dir.name}: missing useful description")
-        if "TODO" in text:
+        if re.search(r"\bTODO(?:\s*:|\s+placeholder|\s+here)\b", text, re.IGNORECASE):
             failures.append(f"{skill_dir.name}: contains TODO placeholder")
         if f"skills/{skill_dir.name}/SKILL.md" not in resolver:
             failures.append(f"{skill_dir.name}: missing resolver entry")
@@ -72,4 +72,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

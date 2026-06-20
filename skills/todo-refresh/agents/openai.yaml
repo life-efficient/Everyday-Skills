@@ -1,0 +1,4 @@
+interface:
+  display_name: "TODO Refresh"
+  short_description: "Prune and sharpen stale project task lists"
+  default_prompt: "Use $todo-refresh to check this project TODO.md for stale, completed, vague, or duplicate tasks, then update it with specific remaining work."
