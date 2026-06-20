@@ -9,6 +9,8 @@ single product or knowledge base.
   authenticate it when needed, and verify the tools are callable.
 - `fanout-tasks`: Fan out root-level project TODO items into concise,
   copyable chat prompts.
+- `plan-next-todos`: Draft evidence-backed next TODO items for a software
+  project.
 - `skillify`: Turn a repeated workflow into a concise, testable Codex skill.
 - `skill-testing`: Validate one skill for structure, anti-patterns, metadata
   drift, and realistic task behavior.
@@ -28,6 +30,7 @@ skills_dir="${CODEX_HOME:-$HOME/.codex}/skills"
 mkdir -p "$skills_dir"
 ln -sfn "$repo_root/skills/add-mcp" "$skills_dir/add-mcp"
 ln -sfn "$repo_root/skills/fanout-tasks" "$skills_dir/fanout-tasks"
+ln -sfn "$repo_root/skills/plan-next-todos" "$skills_dir/plan-next-todos"
 ln -sfn "$repo_root/skills/skillify" "$skills_dir/skillify"
 ln -sfn "$repo_root/skills/skill-testing" "$skills_dir/skill-testing"
 ln -sfn "$repo_root/skills/skillpack-check" "$skills_dir/skillpack-check"
