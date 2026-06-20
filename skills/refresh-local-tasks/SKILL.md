@@ -1,17 +1,17 @@
 ---
-name: todo-refresh
-description: Refresh and enrich project TODO.md files when a user asks to check whether outstanding tasks are stale, already completed, too vague, or need more specific next steps.
+name: refresh-local-tasks
+description: Refresh and enrich local project TODO.md files when a user asks to check whether outstanding tasks are stale, already completed, too vague, or need more specific next steps.
 ---
 
-# TODO Refresh
+# Refresh Local Tasks
 
-Refresh a project task list against the current repository state. The goal is a
+Refresh a local project task list against the current repository state. The goal is a
 cleaner `TODO.md`, not a broad roadmap rewrite.
 
 ## Contract
 
 Use this skill when the user asks to maintain, refresh, enrich, prune, or check
-staleness in a project `TODO.md` or similar root task list.
+staleness in a local project `TODO.md` or similar root task list.
 
 Successful completion means:
 

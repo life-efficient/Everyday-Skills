@@ -7,7 +7,7 @@ single product or knowledge base.
 
 - `add-mcp`: Add a hosted MCP server to Codex using `~/.codex/config.toml`,
   authenticate it when needed, and verify the tools are callable.
-- `fanout-tasks`: Fan out root-level project TODO items into concise,
+- `fanout-local-tasks`: Fan out root-level local project TODO items into concise,
   copyable chat prompts.
 - `plan-next-todos`: Draft evidence-backed next TODO items for a software
   project.
@@ -15,7 +15,7 @@ single product or knowledge base.
 - `skill-testing`: Validate one skill for structure, anti-patterns, metadata
   drift, and realistic task behavior.
 - `skillpack-check`: Audit a repo of skills before release.
-- `todo-refresh`: Check project task lists against the current repo, remove
+- `refresh-local-tasks`: Check local project task lists against the current repo, remove
   completed or stale items, and rewrite vague tasks into specific remaining work.
 
 ## Install locally
@@ -29,12 +29,12 @@ skills_dir="${CODEX_HOME:-$HOME/.codex}/skills"
 
 mkdir -p "$skills_dir"
 ln -sfn "$repo_root/skills/add-mcp" "$skills_dir/add-mcp"
-ln -sfn "$repo_root/skills/fanout-tasks" "$skills_dir/fanout-tasks"
+ln -sfn "$repo_root/skills/fanout-local-tasks" "$skills_dir/fanout-local-tasks"
 ln -sfn "$repo_root/skills/plan-next-todos" "$skills_dir/plan-next-todos"
 ln -sfn "$repo_root/skills/skillify" "$skills_dir/skillify"
 ln -sfn "$repo_root/skills/skill-testing" "$skills_dir/skill-testing"
 ln -sfn "$repo_root/skills/skillpack-check" "$skills_dir/skillpack-check"
-ln -sfn "$repo_root/skills/todo-refresh" "$skills_dir/todo-refresh"
+ln -sfn "$repo_root/skills/refresh-local-tasks" "$skills_dir/refresh-local-tasks"
 ```
 
 ## Check before shipping

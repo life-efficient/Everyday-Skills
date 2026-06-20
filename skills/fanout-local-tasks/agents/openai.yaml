@@ -1,0 +1,4 @@
+interface:
+  display_name: "Fanout Local Tasks"
+  short_description: "Show copyable local TODO prompt blocks in chat."
+  default_prompt: "Use $fanout-local-tasks to show up to 10 ready local TODO prompt blocks in chat, plus tasks needing more specification."

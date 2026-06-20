@@ -1,9 +1,9 @@
 ---
-name: fanout-tasks
-description: Fan out concise chat prompts from individual root-level TODO.md items in projects under ~/projects. Use when the user wants daily kickoff prompts, project TODO item prompts, one prompt per TODO item, prompts for a named project, prompts for multiple named projects, or prompts excluding a named project.
+name: fanout-local-tasks
+description: Fan out concise chat prompts from individual root-level TODO.md items in local projects under ~/projects. Use when the user wants daily kickoff prompts, local project TODO item prompts, one prompt per TODO item, prompts for a named local project, prompts for multiple named local projects, or prompts excluding a named local project.
 ---
 
-# Fanout Tasks
+# Fanout Local Tasks
 
 ## Workflow
 
@@ -12,7 +12,7 @@ When invoked, find `TODO.md` files that sit at the root of direct child projects
 Prefer running:
 
 ```bash
-python3 /Users/hq/.codex/skills/fanout-tasks/scripts/generate_project_todo_prompts.py
+python3 /Users/hq/.codex/skills/fanout-local-tasks/scripts/generate_project_todo_prompts.py
 ```
 
 Then respond in chat with the generated prompts. Do not write the result to a file, do not return only a file link, and do not make the user open an artifact to see the prompts.

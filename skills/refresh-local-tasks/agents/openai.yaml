@@ -1,0 +1,4 @@
+interface:
+  display_name: "Refresh Local Tasks"
+  short_description: "Prune and sharpen stale local project task lists"
+  default_prompt: "Use $refresh-local-tasks to check this local project TODO.md for stale, completed, vague, or duplicate tasks, then update it with specific remaining work."
