@@ -1,5 +1,11 @@
 # Everyday Skills
 
+Copy this into a new agent thread before asking it to install or use this repo:
+
+```text
+Install the Everyday Skills by following https://github.com/life-efficient/Everyday-Skills/blob/main/INSTALL_FOR_AGENTS.md.
+```
+
 Reusable Codex skills for general agent workflows that are not specific to a
 single product or knowledge base.
 
