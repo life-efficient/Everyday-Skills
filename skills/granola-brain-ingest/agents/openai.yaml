@@ -1,0 +1,4 @@
+interface:
+  display_name: "Granola Brain Ingest"
+  short_description: "Import recent Granola meetings into the local brain with sanitized transcripts"
+  default_prompt: "Use $granola-brain-ingest to import recent Granola meetings into my local brain, skipping duplicates and saving only sanitized transcript sidecars."

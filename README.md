@@ -15,6 +15,9 @@ single product or knowledge base.
   authenticate it when needed, and verify the tools are callable.
 - `fanout-local-tasks`: Fan out root-level local project TODO items into concise,
   copyable chat prompts.
+- `granola-brain-ingest`: Import recent Granola meeting notes into the local
+  BigBrain brain while skipping duplicates and storing only sanitized transcript
+  sidecars.
 - `plan-next-todos`: Draft evidence-backed next TODO items for a software
   project.
 - `roadmap-local-tasks`: Ask focused roadmap questions to choose local project
@@ -38,6 +41,7 @@ skills_dir="${CODEX_HOME:-$HOME/.codex}/skills"
 mkdir -p "$skills_dir"
 ln -sfn "$repo_root/skills/add-mcp" "$skills_dir/add-mcp"
 ln -sfn "$repo_root/skills/fanout-local-tasks" "$skills_dir/fanout-local-tasks"
+ln -sfn "$repo_root/skills/granola-brain-ingest" "$skills_dir/granola-brain-ingest"
 ln -sfn "$repo_root/skills/plan-next-todos" "$skills_dir/plan-next-todos"
 ln -sfn "$repo_root/skills/roadmap-local-tasks" "$skills_dir/roadmap-local-tasks"
 ln -sfn "$repo_root/skills/skillify" "$skills_dir/skillify"
