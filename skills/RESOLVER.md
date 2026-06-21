@@ -4,7 +4,6 @@
 | --- | --- |
 | Add or authenticate a hosted MCP server in Codex | `skills/add-mcp/SKILL.md` |
 | Fan out root-level local project TODO items into copyable chat prompts | `skills/fanout-local-tasks/SKILL.md` |
-| Import recent Granola meetings into the local brain with sanitized transcripts | `skills/granola-brain-ingest/SKILL.md` |
 | Plan evidence-backed next TODO items for a software project | `skills/plan-next-todos/SKILL.md` |
 | Gather roadmap input and project-focus choices for local project next steps | `skills/roadmap-local-tasks/SKILL.md` |
 | Create or improve a reusable Codex skill contract | `skills/skillify/SKILL.md` |
