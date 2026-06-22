@@ -1,4 +1,0 @@
-interface:
-  display_name: "Plan Next TODOs"
-  short_description: "Draft evidence-backed project TODOs."
-  default_prompt: "Use $plan-next-todos to propose the next TODO items for this project."
