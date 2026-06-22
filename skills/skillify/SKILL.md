@@ -19,10 +19,10 @@ context. The output should be a small, durable skill folder, not a long essay.
    - create one when the process is repeated, fragile, domain-specific, or tool-specific
    - do not create one for a one-off preference or ordinary coding pattern
 3. Decide where the skill belongs before writing files:
-   - install personal, private, brain-specific, client-specific, or machine-local workflows under `${CODEX_HOME:-$HOME/.codex}/skills/<skill-name>`
-   - add a skill to a shared repo only when the user explicitly asks for that repo or the workflow is clearly portable across users and machines
-   - if the current working directory is a skill repo but the workflow is personal or private, create the local skill and report that it was intentionally not added to the repo
-   - when moving a mistakenly shared skill local, remove the shared copy only after verifying the local copy exists
+   - create new skills under `${CODEX_HOME:-$HOME/.codex}/skills/<skill-name>` by default so the user can use them immediately
+   - do not add a new skill to a shared repo merely because the current working directory is that repo
+   - edit a skill inside a shared repo only when the existing installed skill is already sourced from that repo, or when the user explicitly asks to package or publish it there
+   - if a skill was mistakenly created in a shared repo, copy or move it to the local skills directory, verify the local copy exists, then remove the shared copy if appropriate
 4. Write a tight `SKILL.md`:
    - frontmatter must contain only `name` and `description`
    - description must include when to use the skill
@@ -33,6 +33,10 @@ context. The output should be a small, durable skill folder, not a long essay.
    - `assets/` for reusable output material
 6. Add or update `agents/openai.yaml` with human-facing display metadata.
 7. Add tests using `skill-testing` when the skill is more than a tiny wrapper.
+8. Verify the skill is available immediately:
+   - confirm `${CODEX_HOME:-$HOME/.codex}/skills/<skill-name>/SKILL.md` exists, or that the installed skill symlink resolves to the intended repo skill
+   - inspect the resolved `SKILL.md` path, not just the path that was written
+   - report the resolved install path and any validation command results back to the user
 
 ## Contract Checklist
 
@@ -43,7 +47,8 @@ context. The output should be a small, durable skill folder, not a long essay.
 - Guardrails include common wrong paths and premature success claims.
 - Output expectations tell the agent what to report back.
 - References are linked from `SKILL.md` and loaded only when relevant.
-- Placement is explicit: shared-repo skill, existing project-local skill, or local machine install.
+- Placement is explicit and local by default.
+- The installed skill resolves to the intended `SKILL.md` path before success is reported.
 
 ## Anti-Patterns
 
@@ -51,6 +56,7 @@ context. The output should be a small, durable skill folder, not a long essay.
 - Duplicating a whole manual in `SKILL.md` instead of using references.
 - Creating a skill that only says "be careful".
 - Depending on local absolute paths unless the skill is intentionally personal.
-- Committing personal, private, brain-specific, client-specific, or machine-local workflows to a shared skills repo by default.
+- Creating a new skill in a shared repo by default.
+- Assuming a written skill is usable without checking the installed or symlink-resolved path.
 - Declaring success without a verification step.
 - Adding broad routing language that overlaps every other skill.
