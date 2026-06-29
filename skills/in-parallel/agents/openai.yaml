@@ -1,0 +1,4 @@
+interface:
+  display_name: "In Parallel"
+  short_description: "Split separable work across parallel Codex threads."
+  default_prompt: "Use $in-parallel to split this request into independent packets, run them in parallel threads or subagents when available, then integrate and verify the results."
