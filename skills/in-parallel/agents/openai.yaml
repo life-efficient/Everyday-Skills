@@ -1,4 +1,4 @@
 interface:
   display_name: "In Parallel"
   short_description: "Split separable work across parallel Codex threads."
-  default_prompt: "Use $in-parallel to split this request into independent packets, discover codex_app.create_thread with tool_search for create_thread, create parallel Codex threads with self-contained prompts and the right target, then integrate and verify the results."
+  default_prompt: "Use $in-parallel to split this request into independent packets, copy all relevant current-chat context into self-contained worker specs, discover codex_app.create_thread with tool_search for create_thread, create parallel Codex threads with the right target, then integrate and verify the results."

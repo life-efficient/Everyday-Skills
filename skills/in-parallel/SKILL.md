@@ -12,6 +12,13 @@ parallel, turn the user's request into independent work packets and create
 parallel Codex threads for those packets when the available tool surface
 supports it.
 
+Each new Codex thread starts without the current chat context. Before creating
+any worker thread, write a self-contained work spec that carries forward every
+piece of context the worker needs: the user's actual request, relevant prior
+decisions from this chat, target projects or apps, files or URLs, required
+tools or connectors, constraints, success criteria, and expected reporting
+format.
+
 In the Codex desktop app, the expected thread tool is
 `codex_app.create_thread`. It is usually exposed lazily: discover it first with
 `tool_search` using a query like `create_thread`, then call it with a
@@ -31,7 +38,14 @@ Do not use this skill when the work must be done sequentially, depends on one sh
    - Split by repository area, route, file ownership, issue, question, or deliverable section.
    - Keep each packet small enough for a fresh thread to complete without hidden context.
    - If dependencies exist, keep dependent steps in the main thread or schedule them after fanout results return.
-2. Discover the Codex thread tool before concluding it is unavailable.
+2. Build the context bundle for worker prompts.
+   - Include all relevant facts from the current chat because worker threads do not inherit them.
+   - Name where the work should happen: repo path, project target, app, website, external service, or connector.
+   - Name which tools to use or discover when that matters, including MCP or app tools mentioned by the user.
+   - Include constraints such as "read-only", "do not commit", "use this skill", "avoid screenshots", or "verify with tests".
+   - Include current assumptions, decisions already made, known blockers, and any user preferences that affect the packet.
+   - Include the handoff contract: what the worker must report back, such as findings, changed files, commands run, thread blockers, links, or next-step recommendations.
+3. Discover the Codex thread tool before concluding it is unavailable.
    - Call `tool_search` for `create_thread`.
    - Use `codex_app.create_thread` when exposed.
    - Pass a self-contained prompt and the correct target:
@@ -46,21 +60,23 @@ Do not use this skill when the work must be done sequentially, depends on one sh
    - If no live parallel execution tool is available after targeted discovery,
      prepare the packets as copyable prompts and say that live parallel
      execution is unavailable in this environment.
-3. Write each packet as a self-contained prompt.
+4. Write each packet as a self-contained prompt.
+   - Start with a compact spec: goal, context, target location, required tools, constraints, success criteria, and handoff format.
    - Include the goal, relevant paths or URLs, constraints, expected output, and any verification requested by the user.
+   - Do not rely on "as discussed above", "the current repo", "this file", or other context that only exists in the parent chat.
    - Tell workers not to edit shared files unless their packet explicitly requires it.
    - Tell workers to report findings, changed files, commands run, and blockers.
-4. Start workers in parallel only after the packets are clear.
+5. Start workers in parallel only after the packets are clear.
    - Use separate Codex threads for independent packets by default.
    - Avoid sending multiple workers into the same file unless the task is read-only.
    - Keep a main-thread checklist of packets, statuses, and integration work.
    - After a successful `create_thread` call, preserve the returned thread ID
      so it can be reported or monitored.
-5. Merge and verify.
+6. Merge and verify.
    - Read each worker result.
    - Reconcile conflicts, duplicated findings, and inconsistent assumptions.
    - Perform any final integration, tests, formatting, or user-facing synthesis in the main thread.
-6. Report the outcome.
+7. Report the outcome.
    - Name each packet and its result.
    - Include links to created Codex threads when thread tools return them.
    - State what was verified and what remains blocked.
@@ -72,6 +88,11 @@ Do not use this skill when the work must be done sequentially, depends on one sh
   threads when the tool is available.
 - Do not skip `tool_search` for `create_thread` just because the tool is not
   initially visible; Codex thread tools are often lazy-loaded.
+- Do not create a new thread with a thin prompt that depends on the current
+  chat for meaning; worker prompts must stand alone.
+- Do not assume "current project", "same instructions", memory, attached files,
+  or earlier discussion will be visible in a new thread unless explicitly
+  copied into that thread's prompt.
 - Do not use subagents instead of Codex threads unless the user explicitly asks
   for subagents/local workers or thread creation is unavailable after targeted
   discovery.
