@@ -46,10 +46,12 @@ Default output is capped at 10 ready items:
   item.
 - Do not include boilerplate about reading files, preserving changes,
   verification, commits, or updating `TODO.md`.
-- After the ready list, append exactly:
+- Only when TODOs are too vague to hand off cleanly, append exactly:
   `I also need your input on a few tasks:`
 - Under that line, show a numbered list of TODOs that are too vague to hand off
   cleanly. Include the project name and unclear TODO.
+- If there are no vague/input-needed TODOs, omit this heading entirely and do
+  not mention that no such TODOs were found.
 - If no actionable root-level `TODO.md` bullet items are found under
   `~/projects`, say that directly and do not invent tasks.
 - End by asking whether the user wants handoff prompts generated for the ready
