@@ -17,6 +17,8 @@ single product or knowledge base.
   copyable chat prompts.
 - `in-parallel`: Split separable work across parallel Codex threads or subagents,
   then integrate and verify the results.
+- `local-whats-next`: Summarize root-level local project TODO items as a concise
+  numbered what's-next snapshot before optional fanout.
 - `roadmap-local-tasks`: Ask focused roadmap questions to choose local project
   priorities, evidence-backed next TODOs, and next-step options.
 - `skillify`: Turn a repeated workflow into a concise, testable Codex skill.
@@ -39,6 +41,7 @@ mkdir -p "$skills_dir"
 ln -sfn "$repo_root/skills/add-mcp" "$skills_dir/add-mcp"
 ln -sfn "$repo_root/skills/fanout-local-tasks" "$skills_dir/fanout-local-tasks"
 ln -sfn "$repo_root/skills/in-parallel" "$skills_dir/in-parallel"
+ln -sfn "$repo_root/skills/local-whats-next" "$skills_dir/local-whats-next"
 ln -sfn "$repo_root/skills/roadmap-local-tasks" "$skills_dir/roadmap-local-tasks"
 ln -sfn "$repo_root/skills/skillify" "$skills_dir/skillify"
 ln -sfn "$repo_root/skills/skill-testing" "$skills_dir/skill-testing"

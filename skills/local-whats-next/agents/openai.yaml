@@ -1,0 +1,4 @@
+interface:
+  display_name: "Local What's Next"
+  short_description: "Summarize root TODO.md items across local projects"
+  default_prompt: "Use $local-whats-next to summarize the next ready root TODO.md items across my local projects as a concise numbered list."
