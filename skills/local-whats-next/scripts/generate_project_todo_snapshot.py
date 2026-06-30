@@ -42,6 +42,10 @@ def needs_input_line(project_path: Path, item_text: str) -> str:
     return f"{project_path.name}: {textwrap.shorten(todo, width=160, placeholder='...')}"
 
 
+def execution_mode(section: str, item_text: str) -> str:
+    return fanout.execution_mode(section, item_text)
+
+
 def generate(
     projects_dir: Path,
     include: set[str] | None = None,
@@ -51,6 +55,7 @@ def generate(
     include = include or set()
     exclude = exclude or set()
     ready: list[str] = []
+    user_only: list[str] = []
     needs_input: list[str] = []
 
     for project_path in fanout.select_project_dirs(projects_dir, include, exclude):
@@ -59,12 +64,16 @@ def generate(
             continue
         todo_text = fanout.read_todo(todo_path)
         for section, item_text in fanout.todo_items(todo_text):
-            if fanout.needs_more_specification(section, item_text):
+            mode = execution_mode(section, item_text)
+            if mode == "underspecified":
                 needs_input.append(needs_input_line(project_path, item_text))
+                continue
+            if mode == "user":
+                user_only.append(ready_line(project_path, item_text))
                 continue
             ready.append(ready_line(project_path, item_text))
 
-    if not ready and not needs_input:
+    if not ready and not user_only and not needs_input:
         scope_parts: list[str] = []
         if include:
             scope_parts.append("included projects: " + ", ".join(sorted(include)))
@@ -78,6 +87,13 @@ def generate(
         sections.extend(f"{index}. {item}" for index, item in enumerate(ready[:limit], start=1))
     else:
         sections.append("No ready tasks found.")
+
+    if user_only:
+        sections.append("")
+        sections.append("There are a few things I can't physically help with:")
+        sections.extend(
+            f"{index}. {item}" for index, item in enumerate(user_only[:limit], start=1)
+        )
 
     if needs_input:
         sections.append("")

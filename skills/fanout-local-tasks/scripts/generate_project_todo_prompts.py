@@ -39,6 +39,35 @@ READY_VERBS = {
     "use",
     "verify",
 }
+USER_MODE_PATTERNS = (
+    r"^buy\b",
+    r"^order\b.*\b(business cards|physical|print|printed)\b",
+    r"^meet with\b",
+    r"\bmeeting with\b",
+    r"^demo\b.*\b(to|with)\b",
+    r"^run demo with\b",
+    r"^show\b.*\bsetup\b",
+    r"^authorize\b.*\b(connector|github|oauth)\b",
+    r"^sign\b.*\b(document|paper|contract)\b",
+)
+INTERACTIVE_MODE_PATTERNS = (
+    r"\bask\b",
+    r"\bapprove\b",
+    r"\bbook\b",
+    r"\bchoose\b",
+    r"\bclarify\b",
+    r"\bcollect\b",
+    r"\bconfirm\b",
+    r"\bcoordinate\b",
+    r"\bdecide\b",
+    r"\bfollow up\b",
+    r"\breview\b",
+    r"\bschedule\b",
+    r"\bsend\b",
+    r"\bshare\b",
+    r"\bvalidate\b.*\bstakeholder",
+)
+INTERACTIVE_PREPEND = "I need to get this done, and I want you to walk me through it step by step."
 
 
 def normalize_project_name(name: str) -> str:
@@ -183,6 +212,19 @@ def needs_more_specification(section: str, item_text: str) -> bool:
     return todo.startswith(NEEDS_SPEC_MARKERS)
 
 
+def execution_mode(section: str, item_text: str) -> str:
+    todo = concise_todo(item_text).lower()
+    for pattern in USER_MODE_PATTERNS:
+        if re.search(pattern, todo):
+            return "user"
+    if needs_more_specification(section, item_text):
+        return "underspecified"
+    for pattern in INTERACTIVE_MODE_PATTERNS:
+        if re.search(pattern, todo):
+            return "interactive"
+    return "agent"
+
+
 def item_title(item_text: str) -> str:
     lines = item_text.splitlines()
     first_line = lines[0].strip()
@@ -202,17 +244,20 @@ def item_title(item_text: str) -> str:
     return textwrap.shorten(title, width=100, placeholder="...")
 
 
-def prompt_for_item(project_path: Path, item_text: str, template: str) -> str:
+def prompt_for_item(project_path: Path, item_text: str, template: str, mode: str) -> str:
     project_name = project_path.name
-    return template.format(project=project_name, todo=concise_todo(item_text)).strip()
+    prompt = template.format(project=project_name, todo=concise_todo(item_text)).strip()
+    if mode == "interactive":
+        prompt = f"{INTERACTIVE_PREPEND}\n\n{prompt}"
+    return prompt
 
 
 def spec_line(project_path: Path, item_text: str) -> str:
     return f"- {project_path.name}: {textwrap.shorten(concise_todo(item_text), width=140, placeholder='...')}"
 
 
-def format_output(ready: list[str], needs_spec: list[str], limit: int) -> str:
-    if not ready and not needs_spec:
+def format_output(ready: list[str], user_only: list[str], needs_spec: list[str], limit: int) -> str:
+    if not ready and not user_only and not needs_spec:
         return ""
 
     sections: list[str] = []
@@ -222,6 +267,10 @@ def format_output(ready: list[str], needs_spec: list[str], limit: int) -> str:
             sections.append(f"```text\n{prompt}\n```")
     else:
         sections.append("Ready tasks\nNo ready tasks found.")
+
+    if user_only:
+        sections.append("\nThings Codex can't physically help with")
+        sections.extend(user_only[:limit])
 
     if needs_spec:
         sections.append("\nNeeds more specification")
@@ -240,6 +289,7 @@ def generate(
     include = include or set()
     exclude = exclude or set()
     ready: list[str] = []
+    user_only: list[str] = []
     needs_spec: list[str] = []
     for project_path in select_project_dirs(projects_dir, include, exclude):
         todo_path = project_path / "TODO.md"
@@ -247,12 +297,16 @@ def generate(
             continue
         todo_text = read_todo(todo_path)
         for section, item_text in todo_items(todo_text):
-            if needs_more_specification(section, item_text):
+            mode = execution_mode(section, item_text)
+            if mode == "underspecified":
                 needs_spec.append(spec_line(project_path, item_text))
                 continue
-            ready.append(prompt_for_item(project_path, item_text, template))
+            if mode == "user":
+                user_only.append(spec_line(project_path, item_text))
+                continue
+            ready.append(prompt_for_item(project_path, item_text, template, mode))
 
-    output = format_output(ready, needs_spec, limit)
+    output = format_output(ready, user_only, needs_spec, limit)
     if not output:
         scope_parts: list[str] = []
         if include:

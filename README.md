@@ -13,12 +13,13 @@ single product or knowledge base.
 
 - `add-mcp`: Add a hosted MCP server to Codex using `~/.codex/config.toml`,
   authenticate it when needed, and verify the tools are callable.
-- `fanout-local-tasks`: Fan out root-level local project TODO items into concise,
-  copyable chat prompts.
+- `fanout-local-tasks`: Fan out root-level local project TODO items into Codex
+  threads with concise handoff prompts.
 - `in-parallel`: Split separable work across parallel Codex threads or subagents,
   then integrate and verify the results.
-- `local-whats-next`: Summarize root-level local project TODO items as a concise
-  numbered what's-next snapshot before optional fanout.
+- `local-whats-next`: Summarize root-level local project TODO items as a
+  concise numbered what's-next snapshot split by inferred execution mode before
+  optional fanout.
 - `roadmap-local-tasks`: Ask focused roadmap questions to choose local project
   priorities, evidence-backed next TODOs, and next-step options.
 - `skillify`: Turn a repeated workflow into a concise, testable Codex skill.
